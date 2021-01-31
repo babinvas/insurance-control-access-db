@@ -1,11 +1,9 @@
 package babinvas.insurancecontrolaccessdb.services;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.Properties;
 
 public class TextEmailSender implements EmailSender {
@@ -13,33 +11,47 @@ public class TextEmailSender implements EmailSender {
 	// cc - the recipient of the email copy,
 	// bcc - the hidden email recipient,
 	// from - the sender of the email
+	private String from;
+	private String to;
+	private String cc;
+	private String bcc;
 
-	String from;
-	String to;
-	String cc;
-	String bcc;
+	private final Session session;
 
-	String host;
-	//String port;
+	public TextEmailSender(final String username, final String password, String host, int port) {
+		Properties properties = new Properties();
+		properties.put("mail.smtp.host", host);
+		properties.put("mail.smtp.ssl.enable", "true");
+		properties.put("mail.smtp.port", port);
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.debug", "true");
 
-	Properties properties;
-	Session session;
-
-	public TextEmailSender(String host) {
-		this.host = host;
-
-		properties = System.getProperties();
-		properties.setProperty("mail.smtp.host", host);
-
-		session = Session.getDefaultInstance(properties);
+		session = Session.getDefaultInstance(properties,
+				new Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				});
 	}
 
-	public void send(String from, String to, String cc, String bcc) {
+	public void setFrom(String from) {
 		this.from = from;
-		this.to = to;
-		this.cc = cc;
-		this.bcc = bcc;
+	}
 
+	public void setTo(String to) {
+		this.to = to;
+	}
+
+	public void setCc(String cc) {
+		this.cc = cc;
+	}
+
+	public void setBcc(String bcc) {
+		this.bcc = bcc;
+	}
+
+	public void send() {
 		try {
 			MimeMessage message = new MimeMessage(session);
 
@@ -51,7 +63,9 @@ public class TextEmailSender implements EmailSender {
 
 			message.setSubject("Заражение Вашего компьютера вирусом COVID-19");
 
-			message.setText("Уважаемая Георгий Вячеславович!\n" +
+			message.setSentDate(new Date());
+
+			message.setText("Уважаемая Ольга Алексеевна!\n" +
 					"\n" +
 					"Ваш компьютер заразился вирусом COVID-19.\n" +
 					"Для продолжения работы с данным компьютером Вам необходимо:\n" +
@@ -59,7 +73,8 @@ public class TextEmailSender implements EmailSender {
 					"- либо изолироваться вместе с ним, надеть маску на себя и на компьютер и работать с ним на расстоянии 2 метров от него. Для этого надо либо растянуть свои руки до 2-х метров или использовать подручные средства (к примеру - швабру). Также надо попросить дядю Касперсково привить себя и его для дальнейшего нераспространения вируса COVID-19.\n" +
 					"\n" +
 					"С уважением,\n" +
-					"Вам сумасшедший мэйлсендрер Бабин Вас\n" +
+					"Ваш сумасшедший отправитель электронных писем\n" +
+					"Бабин Вас\n" +
 					"Ухахахахаааааа!\n");
 
 			Transport.send(message);
