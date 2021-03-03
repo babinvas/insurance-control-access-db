@@ -8,19 +8,61 @@
     <artifactId>insurance-control-access-db</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <ucanacces-version>5.0.1</ucanacces-version>
+        <javax-mail-version>1.6.2</javax-mail-version>
+        <javax-activation-version>1.1.1</javax-activation-version>
+        <junit-version>5.7.1</junit-version>
+        <junit-maven-plugin-version>2.22.2</junit-maven-plugin-version>
+    </properties>
+
     <dependencies>
+
+        <dependency>
+            <groupId>net.sf.ucanaccess</groupId>
+            <artifactId>ucanaccess</artifactId>
+            <version>${ucanacces-version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
             <dependency>
                 <groupId>com.sun.mail</groupId>
                 <artifactId>javax.mail</artifactId>
-                <version>1.6.2</version>
+                <version>${javax-mail-version}</version>
             </dependency>
 
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
-            <version>1.1.1</version>
+            <version>${javax-activation-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${junit-maven-plugin-version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${junit-maven-plugin-version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
