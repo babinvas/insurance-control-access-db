@@ -1,49 +1,45 @@
 package babinvas.insurancecontrolaccessdb.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "01_Члены_НКСО")
 public class Member {
 	@Id
-	private long id;
+	@Column(name = "№_По_Реестру", nullable = false)
+	private String idRegistryNumber;
 
+	@Column(name = "Фамилия")
 	private String surname;
-	private String name;
-	private String patronymic;
-	private String toWhom;
-	private String sexualEnding;
 
+	@Column(name = "Имя")
+	private String name;
+
+	@Column(name = "Отчество")
+	private String patronymic;
+
+	@Column(name = "E-mail_члена_НКСО")
 	private String mainEmail;
-	private String secondEmail;
+
+	@Column(name = "E-mail_члена_НКСО_2")
+	private String email2;
 
 	public Member() {
 	}
 
-	public Member(long id,
-	              String surname,
-	              String name,
-	              String patronymic,
-	              String toWhom,
-	              String sexualEnding,
-	              String mainEmail,
-	              String secondEmail) {
-		this.id = id;
-		this.surname = surname;
-		this.name = name;
-		this.patronymic = patronymic;
-		this.toWhom = toWhom;
-		this.sexualEnding = sexualEnding;
-		this.mainEmail = mainEmail;
-		this.secondEmail = secondEmail;
+	public Member(String idRegistryNumber) {
+		this.idRegistryNumber = idRegistryNumber;
 	}
 
-	public long getId() {
-		return id;
+	public String getIdRegistryNumber() {
+		return idRegistryNumber;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setIdRegistryNumber(String idRegistryNumber) {
+		this.idRegistryNumber = idRegistryNumber;
 	}
 
 	public String getSurname() {
@@ -70,22 +66,6 @@ public class Member {
 		this.patronymic = patronymic;
 	}
 
-	public String getToWhom() {
-		return toWhom;
-	}
-
-	public void setToWhom(String toWhom) {
-		this.toWhom = toWhom;
-	}
-
-	public String getSexualEnding() {
-		return sexualEnding;
-	}
-
-	public void setSexualEnding(String sexualEnding) {
-		this.sexualEnding = sexualEnding;
-	}
-
 	public String getMainEmail() {
 		return mainEmail;
 	}
@@ -94,11 +74,11 @@ public class Member {
 		this.mainEmail = mainEmail;
 	}
 
-	public String getSecondEmail() {
-		return secondEmail;
+	public String getEmail2() {
+		return email2;
 	}
 
-	public void setSecondEmail(String secondEmail) {
-		this.secondEmail = secondEmail;
+	public void setEmail2(String email2) {
+		this.email2 = email2;
 	}
 }
