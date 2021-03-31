@@ -1,15 +1,12 @@
 package babinvas.insurancecontrolaccessdb.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "01_Члены_НКСО")
 public class Member {
 	@Id
-	@Column(name = "№_По_Реестру", nullable = false)
+	@Column(name = "Id_По_Реестру", nullable = false)
 	private String idRegistryNumber;
 
 	@Column(name = "Фамилия")
@@ -21,11 +18,19 @@ public class Member {
 	@Column(name = "Отчество")
 	private String patronymic;
 
-	@Column(name = "E-mail_члена_НКСО")
+	@Column(name = "E_mail_члена_НКСО")
 	private String mainEmail;
 
-	@Column(name = "E-mail_члена_НКСО_2")
+	@Column(name = "E_mail_члена_НКСО_второй")
 	private String email2;
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "Id_По_Реестру")
+	MemberInsurance memberInsurance;
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "Id_По_Реестру")
+	MemberDeclination memberDeclination;
 
 	public Member() {
 	}
@@ -80,5 +85,21 @@ public class Member {
 
 	public void setEmail2(String email2) {
 		this.email2 = email2;
+	}
+
+	public MemberInsurance getMemberInsurance() {
+		return memberInsurance;
+	}
+
+	public void setMemberInsurance(MemberInsurance memberInsurance) {
+		this.memberInsurance = memberInsurance;
+	}
+
+	public MemberDeclination getMemberDeclination() {
+		return memberDeclination;
+	}
+
+	public void setMemberDeclination(MemberDeclination memberDeclination) {
+		this.memberDeclination = memberDeclination;
 	}
 }
