@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "11_Склонение_Членов_НКСО")
+@Table(name = "06_Страховые_Полиса_НКСО")
 public class MemberInsurance {
 	@Id
-	@Column(name = "№_По_Реестру", nullable = false)
+	@Column(name = "Id_По_Реестру", nullable = false)
 	private String idRegistryNumber;
 
 	@Column(name = "2020_Окончания_Полиса")
-	private Date ExpirationDate;
+	private Date expirationDate;
 
 	@OneToOne(optional = false, mappedBy = "memberInsurance")
 	Member member;
@@ -33,11 +33,11 @@ public class MemberInsurance {
 	}
 
 	public Date getExpirationDate() {
-		return ExpirationDate;
+		return expirationDate;
 	}
 
 	public void setExpirationDate(Date expirationDate) {
-		ExpirationDate = expirationDate;
+		this.expirationDate = expirationDate;
 	}
 
 	public Member getMember() {
