@@ -13,13 +13,14 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>babinvas.insurancecontrolaccessdb.entities.Member</class>
-        <class>babinvas.insurancecontrolaccessdb.entities.Employer</class>
-        
+        <class>babinvas.insurancecontrolaccessdb.entities.MemberDeclination</class>
+        <class>babinvas.insurancecontrolaccessdb.entities.MemberInsurance</class>
+
         <properties>
             <property name="javax.persistence.jdbc.driver" value="net.ucanaccess.jdbc.UcanaccessDriver" />
 
             <property name="hibernate.dialect" value="net.ucanaccess.hibernate.dialect.UCanAccessDialect"/>
-            <property name="hibernate.connection.url" value="jdbc:ucanaccess://src/main/resources/bot.accdb"/>
+            <property name="hibernate.connection.url" value="jdbc:ucanaccess://src/main/resources/db/db.accdb"/>
 
             <property name="javax.persistence.jdbc.user" value="" />
             <property name="javax.persistence.jdbc.password" value="" />
