@@ -24,6 +24,13 @@
             <version>${ucanacces-version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.2.Final</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
             <dependency>
                 <groupId>com.sun.mail</groupId>
@@ -61,6 +68,14 @@
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${junit-maven-plugin-version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
