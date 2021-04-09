@@ -14,6 +14,7 @@
         <javax-activation-version>1.1.1</javax-activation-version>
         <junit-version>5.7.1</junit-version>
         <junit-maven-plugin-version>2.22.2</junit-maven-plugin-version>
+        <hibernate-version>5.4.2.Final</hibernate-version>
     </properties>
 
     <dependencies>
@@ -28,7 +29,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.2.Final</version>
+            <version>${hibernate-version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
@@ -63,10 +64,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${junit-maven-plugin-version}</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${junit-maven-plugin-version}</version>
             </plugin>
             <plugin>
