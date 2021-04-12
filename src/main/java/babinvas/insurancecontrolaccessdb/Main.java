@@ -41,7 +41,9 @@ public class Main {
 		// deleteEntities();
 
 		MemberRepositoryService memberRepositoryService = new MemberRepositoryService(entityManagerFactory);
-		Date date = getDate("03.05.2021");
+		Date date = getDate(new Date());
+		// Date date = date1.
+		// Date date = getDate("03.05.2021");
 		List<Member> memberList = memberRepositoryService.getByInsurance(date);
 
 		for (Member member : memberList) {
@@ -81,9 +83,23 @@ public class Main {
 	}
 
 	private static Date getDate(String date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
 		try{
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 			return simpleDateFormat.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	private static Date getDate(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+		try{
+			String day = simpleDateFormat.format(date);
+			return simpleDateFormat.parse(day);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
