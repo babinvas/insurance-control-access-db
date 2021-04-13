@@ -6,13 +6,13 @@ import javax.persistence.*;
 @Table(name = "11_Склонение_Членов_НКСО")
 public class MemberDeclination {
 	@Id
-	@Column(name = "Id_По_Реестру", nullable = false)
+	@Column(name = "Id_Po_Reestru", nullable = false)
 	private String idRegistryNumber;
 
-	@Column(name = "Кому_сокр_ФИО_письмо")
+	@Column(name = "Komu_Sokr_Fio_Pismo")
 	private String abbreviationToWhom;
 
-	@Column(name = "Уважаемый_ая")
+	@Column(name = "Uvajaemiy_Aya")
 	private String respectfulWordEnding;
 
 	@OneToOne(optional = false, mappedBy = "memberDeclination")

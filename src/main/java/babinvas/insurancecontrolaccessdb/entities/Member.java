@@ -6,30 +6,30 @@ import javax.persistence.*;
 @Table(name = "01_Члены_НКСО")
 public class Member {
 	@Id
-	@Column(name = "Id_По_Реестру", nullable = false)
+	@Column(name = "Id_Po_Reestru", nullable = false)
 	private String idRegistryNumber;
 
-	@Column(name = "Фамилия")
+	@Column(name = "Familiya")
 	private String surname;
 
-	@Column(name = "Имя")
+	@Column(name = "Imya")
 	private String name;
 
-	@Column(name = "Отчество")
+	@Column(name = "Otchestvo")
 	private String patronymic;
 
-	@Column(name = "E_mail_члена_НКСО")
+	@Column(name = "Email_Chlena_Nkso")
 	private String mainEmail;
 
-	@Column(name = "E_mail_члена_НКСО_второй")
-	private String email2;
+	@Column(name = "Email_Chlena_Nkso_Vtoroy")
+	private String secondEmail;
 
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
-	@JoinColumn(name = "Id_По_Реестру")
+	@JoinColumn(name = "Id_Po_Reestru")
 	MemberInsurance memberInsurance;
 
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
-	@JoinColumn(name = "Id_По_Реестру")
+	@JoinColumn(name = "Id_Po_Reestru")
 	MemberDeclination memberDeclination;
 
 	public Member() {
@@ -79,12 +79,12 @@ public class Member {
 		this.mainEmail = mainEmail;
 	}
 
-	public String getEmail2() {
-		return email2;
+	public String secondEmail() {
+		return secondEmail;
 	}
 
-	public void setEmail2(String email2) {
-		this.email2 = email2;
+	public void secondEmail(String secondEmail) {
+		this.secondEmail = secondEmail;
 	}
 
 	public MemberInsurance getMemberInsurance() {

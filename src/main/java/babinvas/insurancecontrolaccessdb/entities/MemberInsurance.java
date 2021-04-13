@@ -7,10 +7,10 @@ import java.util.Date;
 @Table(name = "06_Страховые_Полиса_НКСО")
 public class MemberInsurance {
 	@Id
-	@Column(name = "Id_По_Реестру", nullable = false)
+	@Column(name = "Id_Po_Reestru", nullable = false)
 	private String idRegistryNumber;
 
-	@Column(name = "2020_Окончания_Полиса")
+	@Column(name = "2020_Okonchanie_Polisa")
 	private Date expirationDate;
 
 	@OneToOne(optional = false, mappedBy = "memberInsurance")
