@@ -1,0 +1,33 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="nkso-members-and-employers">
+
+        <description>
+            The NCSO database sample of members and their employers.
+        </description>
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>babinvas.insurancecontrolaccessdb.entities.Member</class>
+        <class>babinvas.insurancecontrolaccessdb.entities.MemberDeclination</class>
+        <class>babinvas.insurancecontrolaccessdb.entities.MemberInsurance</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="net.ucanaccess.jdbc.UcanaccessDriver" />
+
+            <property name="hibernate.dialect" value="net.ucanaccess.hibernate.dialect.UCanAccessDialect"/>
+            <property name="hibernate.connection.url" value="jdbc:ucanaccess://src/main/resources/db/db.accdb"/>
+
+            <property name="javax.persistence.jdbc.user" value="" />
+            <property name="javax.persistence.jdbc.password" value="" />
+
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
