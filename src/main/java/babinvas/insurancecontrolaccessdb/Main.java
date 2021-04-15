@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+//TODO Реобходимо удалить все ненужные методы перед запуском
+
 public class Main {
 	private static final EmailSendingService emailSendingService = new TextEmailSendingService("username", "password", "host", 465);
 
@@ -35,6 +37,7 @@ public class Main {
 
 		entityTransaction = entityManager.getTransaction();
 
+		//TODO Реобходимо удалить запуском
 		// createEntities();
 		// readEntities();
 		// updateEntities();
@@ -42,8 +45,11 @@ public class Main {
 
 		MemberRepositoryService memberRepositoryService = new MemberRepositoryService(entityManagerFactory);
 		Date date = getDate(new Date());
+
+		//TODO Реобходимо удалить запуском
 		// Date date = date1.
 		// Date date = getDate("03.05.2021");
+
 		List<Member> memberList = memberRepositoryService.getByInsurance(date);
 
 		for (Member member : memberList) {
@@ -54,17 +60,19 @@ public class Main {
 		entityManager.close();
 	}
 
-	private static Member getMember(String idRegistryNumber, String surname, String name, String patronymic, String mainEmail, String email2) {
+	//TODO Реобходимо удалить запуском
+	private static Member getMember(String idRegistryNumber, String surname, String name, String patronymic, String mainEmail, String secondEmail) {
 		Member member = new Member(idRegistryNumber);
 		member.setSurname(surname);
 		member.setName(name);
 		member.setPatronymic(patronymic);
 		member.setMainEmail(mainEmail);
-		member.setEmail2(email2);
+		member.secondEmail(secondEmail);
 
 		return member;
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static MemberDeclination getMemberDeclination(Member member, String abbreviationToWhom, String respectfulWordEnding) {
 		MemberDeclination memberDeclination = new MemberDeclination(member);
 		memberDeclination.setAbbreviationToWhom(abbreviationToWhom);
@@ -73,6 +81,7 @@ public class Main {
 		return memberDeclination;
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static MemberInsurance getMemberInsurance(Member member, String expirationDate) {
 		MemberInsurance memberInsurance = new MemberInsurance(member);
 
@@ -82,6 +91,7 @@ public class Main {
 		return memberInsurance;
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static Date getDate(String date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -94,6 +104,7 @@ public class Main {
 		return null;
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static Date getDate(Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -107,6 +118,7 @@ public class Main {
 		return null;
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static void createEntities() {
 		entityTransaction.begin();
 
@@ -151,12 +163,14 @@ public class Main {
 		}
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static void readEntities() {
 		Member member4 = entityManager.find(Member.class, "00001");
 		MemberDeclination memberDeclination4 = entityManager.find(MemberDeclination.class, "00002");
 		MemberInsurance memberInsurance4 = entityManager.find(MemberInsurance.class, "00003");
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static void updateEntities() {
 		entityTransaction.begin();
 
@@ -170,6 +184,7 @@ public class Main {
 		}
 	}
 
+	//TODO Реобходимо удалить запуском
 	private static void deleteEntities() {
 		entityTransaction.begin();
 
