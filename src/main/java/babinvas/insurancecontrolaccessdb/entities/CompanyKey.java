@@ -1,14 +1,20 @@
 package babinvas.insurancecontrolaccessdb.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CompanyKey {
+public class CompanyKey implements Serializable {
 	static final long serialVersionUID = 1L;
 
-	private String idCompany;
 	private String idRegistryNumber;
+	private String idCompany;
 
 	public CompanyKey() {
+	}
+
+	public CompanyKey(String idRegistryNumber, String idCompany) {
+		this.idRegistryNumber = idRegistryNumber;
+		this.idCompany = idCompany;
 	}
 
 	public String getIdCompany() {

@@ -3,11 +3,16 @@ package babinvas.insurancecontrolaccessdb.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "02-1_Раб-тель_чл-в_НКСО")
+@Table(name = "02_Раб_тель_чл_в_НКСО")
+@IdClass(CompanyKey.class)
 public class Company {
-	private String IdCompany;
-
+	@Id
+	@Column(name = "Id_Po_Reestru")
 	private String idRegistryNumber;
+
+	@Id
+	@Column(name = "Kod_Rabotodatel")
+	private String idCompany;
 
 	@Column(name = "Forma_Poln_Rab")
 	private String fullLegalForm;
@@ -39,19 +44,21 @@ public class Company {
 	@Column(name = "Uvajaemiy_Aya_Rukovoditel_Rab")
 	private String headRespectfulWordEnding;
 
+	/*
 	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "idRegistryNumber")
 	private Member employee;
+	 */
 
 	public Company() {
 	}
 
 	public String getIdCompany() {
-		return IdCompany;
+		return idCompany;
 	}
 
 	public void setIdCompany(String idCompany) {
-		IdCompany = idCompany;
+		this.idCompany = idCompany;
 	}
 
 	public String getIdRegistryNumber() {
@@ -142,6 +149,7 @@ public class Company {
 		this.headRespectfulWordEnding = headRespectfulWordEnding;
 	}
 
+	/*
 	public Member getEmployee() {
 		return employee;
 	}
@@ -149,4 +157,5 @@ public class Company {
 	public void setEmployee(Member employee) {
 		this.employee = employee;
 	}
+    */
 }
