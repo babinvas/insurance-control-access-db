@@ -15,6 +15,7 @@
         <class>babinvas.insurancecontrolaccessdb.entities.Member</class>
         <class>babinvas.insurancecontrolaccessdb.entities.MemberDeclination</class>
         <class>babinvas.insurancecontrolaccessdb.entities.MemberInsurance</class>
+        <class>babinvas.insurancecontrolaccessdb.entities.Company</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="net.ucanaccess.jdbc.UcanaccessDriver" />
