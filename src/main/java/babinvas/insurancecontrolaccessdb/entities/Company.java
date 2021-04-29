@@ -44,11 +44,9 @@ public class Company {
 	@Column(name = "Uvajaemiy_Aya_Rukovoditel_Rab")
 	private String headRespectfulWordEnding;
 
-	/*
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
-	@JoinColumn(name = "idRegistryNumber")
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "Id_Po_Reestru", updatable = false, insertable = false)
 	private Member employee;
-	 */
 
 	public Company() {
 	}
@@ -149,7 +147,6 @@ public class Company {
 		this.headRespectfulWordEnding = headRespectfulWordEnding;
 	}
 
-	/*
 	public Member getEmployee() {
 		return employee;
 	}
@@ -157,5 +154,4 @@ public class Company {
 	public void setEmployee(Member employee) {
 		this.employee = employee;
 	}
-    */
 }

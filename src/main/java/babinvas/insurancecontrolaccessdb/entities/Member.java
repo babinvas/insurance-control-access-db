@@ -1,6 +1,7 @@
 package babinvas.insurancecontrolaccessdb.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "01_Члены_НКСО")
@@ -26,11 +27,14 @@ public class Member {
 
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "Id_Po_Reestru")
-	MemberInsurance memberInsurance;
+	private MemberInsurance memberInsurance;
 
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "Id_Po_Reestru")
-	MemberDeclination memberDeclination;
+	private MemberDeclination memberDeclination;
+
+	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Company> companies;
 
 	public Member() {
 	}
@@ -79,11 +83,11 @@ public class Member {
 		this.mainEmail = mainEmail;
 	}
 
-	public String secondEmail() {
+	public String getSecondEmail() {
 		return secondEmail;
 	}
 
-	public void secondEmail(String secondEmail) {
+	public void setSecondEmail(String secondEmail) {
 		this.secondEmail = secondEmail;
 	}
 
@@ -101,5 +105,13 @@ public class Member {
 
 	public void setMemberDeclination(MemberDeclination memberDeclination) {
 		this.memberDeclination = memberDeclination;
+	}
+
+	public List<Company> getCompanies() {
+		return companies;
+	}
+
+	public void setCompanies(List<Company> companies) {
+		this.companies = companies;
 	}
 }
