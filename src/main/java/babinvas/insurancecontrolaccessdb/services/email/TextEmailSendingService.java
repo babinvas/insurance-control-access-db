@@ -1,4 +1,4 @@
-package babinvas.insurancecontrolaccessdb.services;
+package babinvas.insurancecontrolaccessdb.services.email;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
 
-public class TextEmailSender implements EmailSender {
+public class TextEmailSendingService implements EmailSendingService {
 	// to - the email recipient,
 	// cc - the recipient of the email copy,
 	// bcc - the hidden email recipient,
@@ -18,7 +18,7 @@ public class TextEmailSender implements EmailSender {
 
 	private final Session session;
 
-	public TextEmailSender(final String username, final String password, String host, int port) {
+	public TextEmailSendingService(final String username, final String password, String host, int port) {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.host", host);
 		properties.put("mail.smtp.ssl.enable", "true");
@@ -51,7 +51,7 @@ public class TextEmailSender implements EmailSender {
 		this.bcc = bcc;
 	}
 
-	public void send() {
+	public void send(String subject, String text) {
 		try {
 			MimeMessage message = new MimeMessage(session);
 
@@ -61,21 +61,11 @@ public class TextEmailSender implements EmailSender {
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(cc));
 			message.addRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
 
-			message.setSubject("Заражение Вашего компьютера вирусом COVID-19");
+			message.setSubject(subject);
 
 			message.setSentDate(new Date());
 
-			message.setText("Уважаемая Ольга Алексеевна!\n" +
-					"\n" +
-					"Ваш компьютер заразился вирусом COVID-19.\n" +
-					"Для продолжения работы с данным компьютером Вам необходимо:\n" +
-					"- либо изолировать его от общества на 14 дней и если он не умрёт продолжить работу на нём;\n" +
-					"- либо изолироваться вместе с ним, надеть маску на себя и на компьютер и работать с ним на расстоянии 2 метров от него. Для этого надо либо растянуть свои руки до 2-х метров или использовать подручные средства (к примеру - швабру). Также надо попросить дядю Касперсково привить себя и его для дальнейшего нераспространения вируса COVID-19.\n" +
-					"\n" +
-					"С уважением,\n" +
-					"Ваш сумасшедший отправитель электронных писем\n" +
-					"Бабин Вас\n" +
-					"Ухахахахаааааа!\n");
+			message.setText(text);
 
 			Transport.send(message);
 			System.out.println("Успешная отправка сообщения.....");
