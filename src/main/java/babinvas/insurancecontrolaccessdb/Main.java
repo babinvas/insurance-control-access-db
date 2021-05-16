@@ -23,13 +23,6 @@ public class Main {
 	private static EntityTransaction entityTransaction;
 
 	public static void main(String[] args) {
-		// emailSendingService.setFrom("from@from.ru");
-		// emailSendingService.setTo("to@to.ru");
-		// emailSendingService.setCc("cc@cc.ru");
-		// emailSendingService.setBcc("bcc@bcc.ru");
-		// emailSendingService.send();
-
-
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nkso-members-and-employers");
 		entityManager = entityManagerFactory.createEntityManager();
 
@@ -200,5 +193,35 @@ public class Main {
 		if (entityTransaction.isActive()) {
 			entityTransaction.commit();
 		}
+	}
+
+	private static String getTo() {
+		return null;
+	}
+
+	private static String getCc() {
+		return null;
+	}
+
+	private static void sendEmail(Member member) {
+		String subject = "Заражение Вашего компьютера вирусом COVID-19";
+		String text = "Уважаемая Ольга Алексеевна!\n" +
+				"\n" +
+				"Ваш компьютер заразился вирусом COVID-19.\n" +
+				"Для продолжения работы с данным компьютером Вам необходимо:\n" +
+				"- либо изолировать его от общества на 14 дней и если он не умрёт продолжить работу на нём;\n" +
+				"- либо изолироваться вместе с ним, надеть маску на себя и на компьютер и работать с ним на расстоянии 2 метров от него. Для этого надо либо растянуть свои руки до 2-х метров или использовать подручные средства (к примеру - швабру). Также надо попросить дядю Касперсково привить себя и его для дальнейшего нераспространения вируса COVID-19.\n" +
+				"\n" +
+				"С уважением,\n" +
+				"Ваш сумасшедший отправитель электронных писем\n" +
+				"Бабин Вас\n" +
+				"Ухахахахаааааа!\n";
+
+		emailSendingService.setFrom("from@from.ru");
+		emailSendingService.setTo(getTo());
+		emailSendingService.setCc(getCc());
+		emailSendingService.setBcc("bcc@bcc.ru");
+
+		emailSendingService.send(subject, text);
 	}
 }
