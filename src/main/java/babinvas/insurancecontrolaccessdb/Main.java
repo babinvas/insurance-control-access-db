@@ -11,6 +11,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -195,12 +196,42 @@ public class Main {
 		}
 	}
 
-	private static String getTo() {
-		return null;
+	private static String getTo(Member member) {
+		String mails = member.getMainEmail() == null || member.getMainEmail().isEmpty() ?
+				"" : member.getMainEmail();
+		mails = member.getSecondEmail() == null || member.getSecondEmail().isEmpty() ?
+				"" : mails.isEmpty() ?
+				member.getSecondEmail() : mails + ", " + member.getSecondEmail();
+
+		return mails;
 	}
 
-	private static String getCc() {
-		return null;
+	private static String getCc(Member member) {
+		if (member.getCompanies() == null || member.getCompanies().isEmpty()) return "";
+
+		List<Company> companies = member.getCompanies();
+		List<String> emailList = new ArrayList<>();
+
+		for (Company company : companies) {
+			String mainEmail = company.getMainEmail();
+			String secondEmail = company.getSecondEmail();
+
+			if (mainEmail != null || !mainEmail.isEmpty()) {
+				emailList.add(mainEmail);
+			}
+
+			if (secondEmail != null || !secondEmail.isEmpty()) {
+				emailList.add(secondEmail);
+			}
+		}
+
+		StringBuilder mails = new StringBuilder(emailList.get(0));
+
+		for (int i = 1; i < emailList.size(); i++) {
+			mails.append(", ").append(emailList.get(i));
+		}
+
+		return mails.toString();
 	}
 
 	private static void sendEmail(Member member) {
@@ -218,8 +249,8 @@ public class Main {
 				"Ухахахахаааааа!\n";
 
 		emailSendingService.setFrom("from@from.ru");
-		emailSendingService.setTo(getTo());
-		emailSendingService.setCc(getCc());
+		emailSendingService.setTo(getTo(member));
+		emailSendingService.setCc(getCc(member));
 		emailSendingService.setBcc("bcc@bcc.ru");
 
 		emailSendingService.send(subject, text);
