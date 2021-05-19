@@ -57,9 +57,15 @@ public class TextEmailSendingService implements EmailSendingService {
 
 			message.setFrom(new InternetAddress(from));
 
+			/*
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			message.addRecipient(Message.RecipientType.CC, new InternetAddress(cc));
 			message.addRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
+			 */
+
+			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+			message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
+			message.addRecipients(Message.RecipientType.BCC, InternetAddress.parse(bcc));
 
 			message.setSubject(subject);
 
