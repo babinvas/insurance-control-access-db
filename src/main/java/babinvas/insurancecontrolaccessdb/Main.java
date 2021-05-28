@@ -235,23 +235,36 @@ public class Main {
 	}
 
 	private static void sendEmail(Member member) {
-		String subject = "Заражение Вашего компьютера вирусом COVID-19";
-		String text = "Уважаемая Ольга Алексеевна!\n" +
+		String abbreviationToWhom = member.getMemberDeclination().getAbbreviationToWhom();
+		String respectfulWordEnding = member.getMemberDeclination().getRespectfulWordEnding();
+		String name = member.getName() + " " + member.getPatronymic();
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		Date date = member.getMemberInsurance().getExpirationDate();
+		String expirationDate = simpleDateFormat.format(date);
+
+		String subject = "Об окончании срока действия договора обязательного страхования";
+		String text = "Члену Организации\n" +
+				abbreviationToWhom + "\n" +
 				"\n" +
-				"Ваш компьютер заразился вирусом COVID-19.\n" +
-				"Для продолжения работы с данным компьютером Вам необходимо:\n" +
-				"- либо изолировать его от общества на 14 дней и если он не умрёт продолжить работу на нём;\n" +
-				"- либо изолироваться вместе с ним, надеть маску на себя и на компьютер и работать с ним на расстоянии 2 метров от него. Для этого надо либо растянуть свои руки до 2-х метров или использовать подручные средства (к примеру - швабру). Также надо попросить дядю Касперсково привить себя и его для дальнейшего нераспространения вируса COVID-19.\n" +
+				"\n" +
+				"\n" +
+				"Уважаем"+ respectfulWordEnding + " " + name + "!\n" +
+				"\n" +
+				"Напоминаем Вам, что срок действия Вашего договора (полиса) обязательного страхования ответственности оценщика истек " + expirationDate + ".\n" +
+				"\n" +
+				"В соответствии с пунктом 3.2 Положения о членстве в Ассоциации СРО «НКСО» просим Вас представить в Ассоциации СРО «НКСО» копию нового договора (полиса) обязательного страхования ответственности оценщика в течение трех дней после даты его заключения.\n" +
+				"\n" +
+				"Обращаем Ваше внимание на то, что ответственность оценщика должна быть обязательно застрахована без разрыва срока страхования, в том числе и в период выходных и праздничных дней.\n" +
 				"\n" +
 				"С уважением,\n" +
-				"Ваш сумасшедший отправитель электронных писем\n" +
-				"Бабин Вас\n" +
-				"Ухахахахаааааа!\n";
+				"Организация\n" +
+				"тел. (000) 000-00-00";
 
-		emailSendingService.setFrom("from@from.ru");
+		emailSendingService.setFrom("from@from.com");
 		emailSendingService.setTo(getTo(member));
 		emailSendingService.setCc(getCc(member));
-		emailSendingService.setBcc("bcc@bcc.ru");
+		emailSendingService.setBcc("bcc1@bcc1.com, bcc2@bcc2.com");
 
 		emailSendingService.send(subject, text);
 	}
