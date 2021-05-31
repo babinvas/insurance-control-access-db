@@ -42,9 +42,10 @@ public class Main {
 		// Date date = date1.
 		Date date = getDate("03.05.2021");
 
-		List<Member> memberList = memberRepositoryService.getByInsurance(date);
+		List<Member> members = memberRepositoryService.getByInsurance(date);
 
-		for (Member member : memberList) {
+		//TODO Необходимо удалить запуском перед запуском
+		for (Member member : members) {
 			System.out.println(member.getIdRegistryNumber() + " " + member.getSurname());
 		}
 
@@ -53,6 +54,11 @@ public class Main {
 
 		entityManager.getEntityManagerFactory().close();
 		entityManager.close();
+
+		for (Member member : members) {
+			sendEmail(member);
+		}
+
 	}
 
 	//TODO Необходимо удалить запуском перед запуском
@@ -91,7 +97,6 @@ public class Main {
 		return memberInsurance;
 	}
 
-	//TODO Необходимо удалить запуском перед запуском
 	private static Date getDate(String date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -104,7 +109,6 @@ public class Main {
 		return null;
 	}
 
-	//TODO Необходимо удалить запуском перед запуском
 	private static Date getDate(Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -216,11 +220,11 @@ public class Main {
 			String mainEmail = company.getMainEmail();
 			String secondEmail = company.getSecondEmail();
 
-			if (mainEmail != null || !mainEmail.isEmpty()) {
+			if (mainEmail != null && !mainEmail.isEmpty()) {
 				emailList.add(mainEmail);
 			}
 
-			if (secondEmail != null || !secondEmail.isEmpty()) {
+			if (secondEmail != null && !secondEmail.isEmpty()) {
 				emailList.add(secondEmail);
 			}
 		}
