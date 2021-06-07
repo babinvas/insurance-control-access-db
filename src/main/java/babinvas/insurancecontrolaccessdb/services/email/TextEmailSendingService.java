@@ -80,4 +80,21 @@ public class TextEmailSendingService implements EmailSendingService {
 			e.printStackTrace();
 		}
 	}
+
+	public Session getSession(final String username, final String password, String host, int port) {
+		Properties properties = new Properties();
+		properties.put("mail.smtp.host", host);
+		properties.put("mail.smtp.ssl.enable", "true");
+		properties.put("mail.smtp.port", port);
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.debug", "true");
+
+		return Session.getDefaultInstance(properties,
+				new Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				});
+	}
 }
