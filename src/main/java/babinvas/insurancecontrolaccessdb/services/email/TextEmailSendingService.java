@@ -16,23 +16,9 @@ public class TextEmailSendingService implements EmailSendingService {
 	private String cc;
 	private String bcc;
 
-	private final Session session;
+	// private final Session session;
 
-	public TextEmailSendingService(final String username, final String password, String host, int port) {
-		Properties properties = new Properties();
-		properties.put("mail.smtp.host", host);
-		properties.put("mail.smtp.ssl.enable", "true");
-		properties.put("mail.smtp.port", port);
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.debug", "true");
-
-		session = Session.getDefaultInstance(properties,
-				new Authenticator() {
-					@Override
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, password);
-					}
-				});
+	public TextEmailSendingService() {
 	}
 
 	public void setFrom(String from) {
@@ -51,7 +37,7 @@ public class TextEmailSendingService implements EmailSendingService {
 		this.bcc = bcc;
 	}
 
-	public void send(String subject, String text) {
+	public void send(Session session, String subject, String text) {
 		try {
 			MimeMessage message = new MimeMessage(session);
 
