@@ -5,6 +5,7 @@ import babinvas.insurancecontrolaccessdb.services.email.EmailSendingService;
 import babinvas.insurancecontrolaccessdb.services.email.TextEmailSendingService;
 import babinvas.insurancecontrolaccessdb.services.repository.MemberRepositoryService;
 
+import javax.mail.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,7 +19,7 @@ import java.util.List;
 //TODO Необходимо удалить все ненужные методы перед запуском
 
 public class Main {
-	private static final EmailSendingService emailSendingService = new TextEmailSendingService("username", "password", "host", 465);
+	private static final EmailSendingService emailSendingService = new TextEmailSendingService();
 
 	private static EntityManager entityManager;
 	private static EntityTransaction entityTransaction;
@@ -270,6 +271,8 @@ public class Main {
 		emailSendingService.setCc(getCc(member));
 		emailSendingService.setBcc("bcc1@bcc1.com, bcc2@bcc2.com");
 
-		emailSendingService.send(subject, text);
+		Session session = emailSendingService.getSession("username", "password", "host", 465);
+
+		emailSendingService.send(session, subject, text);
 	}
 }
