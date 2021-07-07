@@ -12,9 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
+import javax.mail.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +23,7 @@ class TextEmailSendingServiceTest {
 	@BeforeEach
 	private void startGreenMail() {
 		textEmailSendingService = new TextEmailSendingService();
-		greenMail = new GreenMail(ServerSetupTest.SMTP);
+		greenMail = new GreenMail(ServerSetupTest.ALL);
 		greenMail.start();
 	}
 
@@ -62,6 +60,22 @@ class TextEmailSendingServiceTest {
 			Assertions.assertEquals(subject, message.getSubject());
 			Assertions.assertEquals(text, GreenMailUtil.getBody(message).trim());
 		}
+
+		// Create user
+		greenMail.setUser("to1@test.com", "to1@test.com", "password");
+
+		// Create session and store
+		Session imapSession = greenMail.getPop3s().createSession();
+
+		Store store = imapSession.getStore("pop3s");
+		store.connect("to1@test.com", "password");
+
+		Folder inbox = store.getFolder("INBOX");
+		inbox.open(Folder.READ_ONLY);
+
+		Message messageReceived = inbox.getMessage(1);
+
+		Assertions.assertEquals(messages[1].getSubject(), messageReceived.getSubject());
 	}
 
 	@Test
