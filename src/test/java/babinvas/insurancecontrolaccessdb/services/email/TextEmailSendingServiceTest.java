@@ -14,6 +14,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 
 import javax.mail.*;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TextEmailSendingServiceTest {
@@ -33,11 +35,13 @@ class TextEmailSendingServiceTest {
 	}
 
 	@Test
-	public void send() throws MessagingException {
+	public void send() throws IOException, MessagingException {
+		String[] recipientAddresses = new String[] {"to1@test.com", "to2@test.com", "cc1@test.com", "cc2@test.com", "bcc1@test.com", "bcc2@test.com"};
+
 		String from = "from@test.com";
-		String to = "to1@test.com, to2@test.com";
-		String cc = "cc1@test.com, cc2@test.com";
-		String bcc = "bcc1@test.com, bcc2@test.com";
+		String to = recipientAddresses[0] + ", " + recipientAddresses[1];
+		String cc = recipientAddresses[2] + ", " + recipientAddresses[3];
+		String bcc = recipientAddresses[4] + ", " + recipientAddresses[5];
 
 		textEmailSendingService.setFrom(from);
 		textEmailSendingService.setTo(to);
@@ -76,6 +80,8 @@ class TextEmailSendingServiceTest {
 		Message messageReceived = inbox.getMessage(1);
 
 		Assertions.assertEquals(messages[1].getSubject(), messageReceived.getSubject());
+		Assertions.assertEquals(messages[1].getContent().toString().trim(), messageReceived.getContent().toString().trim());
+		Assertions.assertEquals(messages[1].getFrom()[0].toString(), messageReceived.getFrom()[0].toString());
 	}
 
 	@Test
