@@ -1,22 +1,16 @@
 package babinvas.insurancecontrolaccessdb.services.email;
 
-import com.icegreen.greenmail.junit.GreenMailRule;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
-import com.icegreen.greenmail.util.ServerSetup;
 import com.icegreen.greenmail.util.ServerSetupTest;
-import org.junit.Rule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
 import javax.mail.*;
 
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TextEmailSendingServiceTest {
 	private TextEmailSendingService textEmailSendingService;
@@ -65,23 +59,25 @@ class TextEmailSendingServiceTest {
 			Assertions.assertEquals(text, GreenMailUtil.getBody(message).trim());
 		}
 
-		// Create user
-		greenMail.setUser("to1@test.com", "to1@test.com", "password");
+		for (String user : recipientAddresses) {
+			// Create user
+			greenMail.setUser(user, user, "password");
 
-		// Create session and store
-		Session imapSession = greenMail.getPop3s().createSession();
+			// Create session and store
+			Session imapSession = greenMail.getPop3s().createSession();
+			Store store = imapSession.getStore("pop3s");
 
-		Store store = imapSession.getStore("pop3s");
-		store.connect("to1@test.com", "password");
+			store.connect(user, "password");
 
-		Folder inbox = store.getFolder("INBOX");
-		inbox.open(Folder.READ_ONLY);
+			Folder inbox = store.getFolder("INBOX");
+			inbox.open(Folder.READ_ONLY);
 
-		Message messageReceived = inbox.getMessage(1);
+			Message messageReceived = inbox.getMessage(1);
 
-		Assertions.assertEquals(messages[1].getSubject(), messageReceived.getSubject());
-		Assertions.assertEquals(messages[1].getContent().toString().trim(), messageReceived.getContent().toString().trim());
-		Assertions.assertEquals(messages[1].getFrom()[0].toString(), messageReceived.getFrom()[0].toString());
+			Assertions.assertEquals(messages[0].getSubject(), messageReceived.getSubject());
+			Assertions.assertEquals(messages[0].getContent().toString().trim(), messageReceived.getContent().toString().trim());
+			Assertions.assertEquals(messages[0].getFrom()[0].toString(), messageReceived.getFrom()[0].toString());
+		}
 	}
 
 	@Test
