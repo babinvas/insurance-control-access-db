@@ -59,14 +59,15 @@ class TextEmailSendingServiceTest {
 			Assertions.assertEquals(text, GreenMailUtil.getBody(message).trim());
 		}
 
+		// Create session
+		Session imapSession = greenMail.getPop3s().createSession();
+
 		for (String user : recipientAddresses) {
 			// Create user
 			greenMail.setUser(user, user, "password");
 
-			// Create session and store
-			Session imapSession = greenMail.getPop3s().createSession();
+			// Create store
 			Store store = imapSession.getStore("pop3s");
-
 			store.connect(user, "password");
 
 			Folder inbox = store.getFolder("INBOX");
