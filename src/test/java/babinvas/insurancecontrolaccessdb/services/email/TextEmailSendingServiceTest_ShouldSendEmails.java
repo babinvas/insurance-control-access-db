@@ -3,33 +3,20 @@ package babinvas.insurancecontrolaccessdb.services.email;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.mail.*;
 
 import java.io.IOException;
 
-class TextEmailSendingServiceTest {
-	private TextEmailSendingService textEmailSendingService;
-	private GreenMail greenMail;
-
-	@BeforeEach
-	private void startGreenMail() {
-		textEmailSendingService = new TextEmailSendingService();
-		greenMail = new GreenMail(ServerSetupTest.ALL);
-		greenMail.start();
-	}
-
-	@AfterEach
-	private void stopGreenMail() {
-		greenMail.stop();
-	}
-
+class TextEmailSendingServiceTest_ShouldSendEmails {
 	@Test
 	public void send() throws IOException, MessagingException {
+		GreenMail greenMail = new GreenMail(ServerSetupTest.ALL);
+		greenMail.start();
+		TextEmailSendingService textEmailSendingService = new TextEmailSendingService();
+
 		String[] recipientAddresses = new String[] {"to1@test.com", "to2@test.com", "cc1@test.com", "cc2@test.com", "bcc1@test.com", "bcc2@test.com"};
 
 		String from = "from@test.com";
@@ -79,9 +66,7 @@ class TextEmailSendingServiceTest {
 			Assertions.assertEquals(messages[0].getContent().toString().trim(), messageReceived.getContent().toString().trim());
 			Assertions.assertEquals(messages[0].getFrom()[0].toString(), messageReceived.getFrom()[0].toString());
 		}
-	}
 
-	@Test
-	void getSession() {
+		greenMail.stop();
 	}
 }
