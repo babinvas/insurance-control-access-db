@@ -15,9 +15,18 @@
         <junit-version>5.7.1</junit-version>
         <junit-maven-plugin-version>2.22.2</junit-maven-plugin-version>
         <hibernate-version>5.4.2.Final</hibernate-version>
+        <greenmail-version>1.6.4</greenmail-version>
     </properties>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/com.icegreen/greenmail -->
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail</artifactId>
+            <version>${greenmail-version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>net.sf.ucanaccess</groupId>

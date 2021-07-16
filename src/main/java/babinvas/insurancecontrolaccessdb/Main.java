@@ -5,31 +5,26 @@ import babinvas.insurancecontrolaccessdb.services.email.EmailSendingService;
 import babinvas.insurancecontrolaccessdb.services.email.TextEmailSendingService;
 import babinvas.insurancecontrolaccessdb.services.repository.MemberRepositoryService;
 
+import javax.mail.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 //TODO Необходимо удалить все ненужные методы перед запуском
 
 public class Main {
-	private static final EmailSendingService emailSendingService = new TextEmailSendingService("username", "password", "host", 465);
+	private static final EmailSendingService emailSendingService = new TextEmailSendingService();
 
 	private static EntityManager entityManager;
 	private static EntityTransaction entityTransaction;
 
 	public static void main(String[] args) {
-		// emailSendingService.setFrom("from@from.ru");
-		// emailSendingService.setTo("to@to.ru");
-		// emailSendingService.setCc("cc@cc.ru");
-		// emailSendingService.setBcc("bcc@bcc.ru");
-		// emailSendingService.send();
-
-
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nkso-members-and-employers");
 		entityManager = entityManagerFactory.createEntityManager();
 
@@ -48,9 +43,10 @@ public class Main {
 		// Date date = date1.
 		Date date = getDate("03.05.2021");
 
-		List<Member> memberList = memberRepositoryService.getByInsurance(date);
+		List<Member> members = memberRepositoryService.getByInsurance(date);
 
-		for (Member member : memberList) {
+		//TODO Необходимо удалить запуском перед запуском
+		for (Member member : members) {
 			System.out.println(member.getIdRegistryNumber() + " " + member.getSurname());
 		}
 
@@ -59,6 +55,11 @@ public class Main {
 
 		entityManager.getEntityManagerFactory().close();
 		entityManager.close();
+
+		for (Member member : members) {
+			sendEmail(member);
+		}
+
 	}
 
 	//TODO Необходимо удалить запуском перед запуском
@@ -97,7 +98,6 @@ public class Main {
 		return memberInsurance;
 	}
 
-	//TODO Необходимо удалить запуском перед запуском
 	private static Date getDate(String date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -110,7 +110,6 @@ public class Main {
 		return null;
 	}
 
-	//TODO Необходимо удалить запуском перед запуском
 	private static Date getDate(Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -200,5 +199,80 @@ public class Main {
 		if (entityTransaction.isActive()) {
 			entityTransaction.commit();
 		}
+	}
+
+	private static String getTo(Member member) {
+		String mails = member.getMainEmail() == null || member.getMainEmail().isEmpty() ?
+				"" : member.getMainEmail();
+		mails = member.getSecondEmail() == null || member.getSecondEmail().isEmpty() ?
+				"" : mails.isEmpty() ?
+				member.getSecondEmail() : mails + ", " + member.getSecondEmail();
+
+		return mails;
+	}
+
+	private static String getCc(Member member) {
+		if (member.getCompanies() == null || member.getCompanies().isEmpty()) return "";
+
+		List<Company> companies = member.getCompanies();
+		List<String> emailList = new ArrayList<>();
+
+		for (Company company : companies) {
+			String mainEmail = company.getMainEmail();
+			String secondEmail = company.getSecondEmail();
+
+			if (mainEmail != null && !mainEmail.isEmpty()) {
+				emailList.add(mainEmail);
+			}
+
+			if (secondEmail != null && !secondEmail.isEmpty()) {
+				emailList.add(secondEmail);
+			}
+		}
+
+		StringBuilder mails = new StringBuilder(emailList.get(0));
+
+		for (int i = 1; i < emailList.size(); i++) {
+			mails.append(", ").append(emailList.get(i));
+		}
+
+		return mails.toString();
+	}
+
+	private static void sendEmail(Member member) {
+		String abbreviationToWhom = member.getMemberDeclination().getAbbreviationToWhom();
+		String respectfulWordEnding = member.getMemberDeclination().getRespectfulWordEnding();
+		String name = member.getName() + " " + member.getPatronymic();
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		Date date = member.getMemberInsurance().getExpirationDate();
+		String expirationDate = simpleDateFormat.format(date);
+
+		String subject = "Об окончании срока действия договора обязательного страхования";
+		String text = "Члену Организации\n" +
+				abbreviationToWhom + "\n" +
+				"\n" +
+				"\n" +
+				"\n" +
+				"Уважаем"+ respectfulWordEnding + " " + name + "!\n" +
+				"\n" +
+				"Напоминаем Вам, что срок действия Вашего договора (полиса) обязательного страхования ответственности оценщика истек " + expirationDate + ".\n" +
+				"\n" +
+				"В соответствии с пунктом 3.2 Положения о членстве в Ассоциации СРО «НКСО» просим Вас представить в Ассоциации СРО «НКСО» копию нового договора (полиса) обязательного страхования ответственности оценщика в течение трех дней после даты его заключения.\n" +
+				"\n" +
+				"Обращаем Ваше внимание на то, что ответственность оценщика должна быть обязательно застрахована без разрыва срока страхования, в том числе и в период выходных и праздничных дней.\n" +
+				"\n" +
+				"С уважением,\n" +
+				"Организация\n" +
+				"тел. (000) 000-00-00";
+
+		emailSendingService.setFrom("from@from.com");
+		emailSendingService.setTo(getTo(member));
+		emailSendingService.setCc(getCc(member));
+		emailSendingService.setBcc("bcc1@bcc1.com, bcc2@bcc2.com");
+
+		Session session = emailSendingService.getSession("username", "password", "host", 465);
+
+		emailSendingService.send(session, subject, text);
 	}
 }
