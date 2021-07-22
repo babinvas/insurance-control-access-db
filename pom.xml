@@ -16,9 +16,21 @@
         <junit-maven-plugin-version>2.22.2</junit-maven-plugin-version>
         <hibernate-version>5.4.2.Final</hibernate-version>
         <greenmail-version>1.6.4</greenmail-version>
+        <log4j-version>2.14.1</log4j-version>
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-version}</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.icegreen/greenmail -->
         <dependency>
