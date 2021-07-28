@@ -4,6 +4,8 @@ import babinvas.insurancecontrolaccessdb.entities.*;
 import babinvas.insurancecontrolaccessdb.services.email.EmailSendingService;
 import babinvas.insurancecontrolaccessdb.services.email.TextEmailSendingService;
 import babinvas.insurancecontrolaccessdb.services.repository.MemberRepositoryService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.mail.Session;
 import javax.persistence.EntityManager;
@@ -19,16 +21,28 @@ import java.util.List;
 //TODO Необходимо удалить все ненужные методы перед запуском
 
 public class Main {
-	private static final EmailSendingService emailSendingService = new TextEmailSendingService();
+	private static final Logger LOGGER = LogManager.getLogger();
+
+	private static EmailSendingService emailSendingService;
 
 	private static EntityManager entityManager;
 	private static EntityTransaction entityTransaction;
 
 	public static void main(String[] args) {
+		LOGGER.info("Launched the application for sending emails about insurance" +
+				"\n-----------------------------------------------------------");
+
+		emailSendingService = new TextEmailSendingService();
+		LOGGER.debug("Created an instance of an email sending class, instance = " + emailSendingService);
+
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nkso-members-and-employers");
+		LOGGER.debug("Created an instance of an EntityManagerFactory, instance = " + entityManagerFactory);
+
 		entityManager = entityManagerFactory.createEntityManager();
+		LOGGER.debug("Created an instance of an EntityManager, instance = "	+ entityManager);
 
 		entityTransaction = entityManager.getTransaction();
+		LOGGER.debug("Created an instance of an EntityTransaction, instance = "	+ entityTransaction);
 
 		//TODO Необходимо удалить запуском перед запуском
 		// createEntities();
