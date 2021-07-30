@@ -51,14 +51,14 @@ public class Main {
 		// deleteEntities();
 
 		MemberRepositoryService memberRepositoryService = new MemberRepositoryService(entityManagerFactory);
-		LOGGER.debug("Created the instance of the class (MemberRepositoryService) working with the entity, instance = " + memberRepositoryService);
+		LOGGER.debug("Created the instance of the class (Class: MemberRepositoryService) working with the entity, instance = " + memberRepositoryService);
 
 		//TODO Необходимо удалить запуском перед запуском
 		// Date date = date1.
 
 		// Date date = getDate(new Date());
 		Date date = getDate("03.05.2021");
-		LOGGER.debug("Got the date (Date) by which the entities will be selected, instance = " + date);
+		LOGGER.debug("Got the date (Class: Date) by which the entities will be selected, instance = " + date);
 
 		List<Member> members = memberRepositoryService.getByInsurance(date);
 		LOGGER.debug("Received a list of members with the specified expiration date of the insurance, instance = " + members +
@@ -80,11 +80,11 @@ public class Main {
 		LOGGER.debug("Closed the EntityManager");
 
 		LOGGER.debug("Sending emails from the received list of members, instance = " + members);
-		/*
+
 		for (Member member : members) {
 			sendEmail(member);
 		}
-		 */
+
 		LOGGER.debug("Sent emails from the received list of members, instance = " + members);
 
 		LOGGER.debug("The application has finished its work" +
@@ -128,17 +128,24 @@ public class Main {
 	}
 
 	private static Date getDate(String date) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		LOGGER.debug("Started the method of converting the date into the required format, \n" +
+				"got the format in String, the received parameter = " + date);
 
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		LOGGER.debug("Created a date template (Class: SimpleDateFormat), instance = " + simpleDateFormat);
+
+		LOGGER.debug("Parsing the date (Class: Date) from the date template, the date template = " + simpleDateFormat);
 		try{
 			return simpleDateFormat.parse(date);
 		} catch (ParseException e) {
+			//TODO Подумать надо ли выкидывать исключение и останавливать работу программы
+			LOGGER.warn("Failed to convert the date from the date template, exception = ", e);
 			e.printStackTrace();
 		}
 
 		return null;
 	}
-
+	
 	private static Date getDate(Date date) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
