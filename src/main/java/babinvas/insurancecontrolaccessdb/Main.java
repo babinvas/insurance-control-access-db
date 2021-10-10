@@ -35,14 +35,17 @@ public class Main {
 		emailSendingService = new TextEmailSendingService();
 		LOGGER.debug("Created an instance of the email sending class, instance = " + emailSendingService);
 
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nkso-members-and-employers");
-		LOGGER.debug("Created an instance of the EntityManagerFactory, instance = " + entityManagerFactory);
+		EntityManagerFactory entityManagerFactory =
+				Persistence.createEntityManagerFactory("nkso-members-and-employers");
+		LOGGER.debug("Created an instance of the " + EntityManagerFactory.class.getName() +
+				", instance = " + entityManagerFactory);
 
 		entityManager = entityManagerFactory.createEntityManager();
-		LOGGER.debug("Created an instance of the EntityManager, instance = " + entityManager);
+		LOGGER.debug("Created an instance of the " + EntityManager.class.getName() + ", instance = " + entityManager);
 
 		entityTransaction = entityManager.getTransaction();
-		LOGGER.debug("Created an instance of the EntityTransaction, instance = "	+ entityTransaction);
+		LOGGER.debug("Created an instance of the " + EntityTransaction.class.getName() +
+				", instance = " + entityTransaction);
 
 		//TODO Необходимо удалить запуском перед запуском
 		// createEntities();
@@ -51,7 +54,8 @@ public class Main {
 		// deleteEntities();
 
 		MemberRepositoryService memberRepositoryService = new MemberRepositoryService(entityManagerFactory);
-		LOGGER.debug("Created the instance of the class (Class: MemberRepositoryService) working with the entity, instance = " + memberRepositoryService);
+		LOGGER.debug("Created the instance of the class (Class: (" + MemberRepositoryService.class.getName() +
+				") working with the entity, instance = " + memberRepositoryService);
 
 		//TODO Необходимо удалить запуском перед запуском
 		// Date date = date1.
@@ -61,8 +65,8 @@ public class Main {
 		LOGGER.debug("Got the date (Class: Date) by which the entities will be selected, instance = " + date);
 
 		List<Member> members = memberRepositoryService.getByInsurance(date);
-		LOGGER.debug("Received a list of members with the specified expiration date of the insurance, instance = " + members +
-				", size of the list = " + members.size());
+		LOGGER.debug("Received a list of members with the specified expiration date of the insurance, instance = " +
+				members + ", size of the list = " + members.size());
 
 		//TODO Необходимо удалить запуском перед запуском
 		for (Member member : members) {
@@ -72,12 +76,14 @@ public class Main {
 		//TODO Необходимо удалить запуском перед запуском
 		Company company = readCompany("00001", "1");
 
-		LOGGER.debug("Closing the EntityManagerFactory, instance = " + entityManager.getEntityManagerFactory());
+		LOGGER.debug("Closing the " + EntityManagerFactory.class.getName() + ", instance = " +
+				entityManager.getEntityManagerFactory());
 		entityManager.getEntityManagerFactory().close();
-		LOGGER.debug("Closed the EntityManagerFactory");
-		LOGGER.debug("Closing the EntityManager, instance = " + entityManager);
+
+		LOGGER.debug("Closed the " + EntityManagerFactory.class.getName());
+		LOGGER.debug("Closing the " + EntityManager.class.getName() + ", instance = " + entityManager);
 		entityManager.close();
-		LOGGER.debug("Closed the EntityManager");
+		LOGGER.debug("Closed the " + EntityManager.class.getName());
 
 		LOGGER.debug("Sending emails from the received list of members, instance = " + members);
 
