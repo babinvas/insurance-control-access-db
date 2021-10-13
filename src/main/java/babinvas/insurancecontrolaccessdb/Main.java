@@ -62,7 +62,7 @@ public class Main {
 
 		// Date date = getDate(new Date());
 		Date date = getDate("03.05.2021");
-		LOGGER.debug("Got the date (Class: Date) by which the entities will be selected, instance = " + date);
+		LOGGER.debug("Got the date (Class: " + Date.class.getName() + ") by which the entities will be selected, instance = " + date);
 
 		List<Member> members = memberRepositoryService.getByInsurance(date);
 		LOGGER.debug("Received a list of members with the specified expiration date of the insurance, instance = " +
@@ -138,9 +138,9 @@ public class Main {
 				"got the format in String, the received parameter = " + date);
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		LOGGER.debug("Created a date template (Class: SimpleDateFormat), instance = " + simpleDateFormat);
+		LOGGER.debug("Created a date template (Class: " + SimpleDateFormat.class.getName() + "), instance = " + simpleDateFormat);
 
-		LOGGER.debug("Parsing the date (Class: Date) from the date template, the date template = " + simpleDateFormat);
+		LOGGER.debug("Parsing the date (Class: " + Date.class.getName() + ") from the date template, the date template = " + simpleDateFormat);
 		try{
 			return simpleDateFormat.parse(date);
 		} catch (ParseException e) {
@@ -244,11 +244,15 @@ public class Main {
 	}
 
 	private static String getTo(Member member) {
+		LOGGER.debug("Started a method to get the recipient's email address (to), \n" +
+				"the received "+ "(class: " + Member.class.getName() + ")" + " parameter = " + member);
 		String mails = member.getMainEmail() == null || member.getMainEmail().isEmpty() ?
 				"" : member.getMainEmail();
+		LOGGER.debug("Received the main email address (String) = " + mails);
 		mails = member.getSecondEmail() == null || member.getSecondEmail().isEmpty() ?
 				"" : mails.isEmpty() ?
 				member.getSecondEmail() : mails + ", " + member.getSecondEmail();
+		LOGGER.debug("Received the second email address (String), the full email address parameter = " + mails);
 
 		return mails;
 	}
